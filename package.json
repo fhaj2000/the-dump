@@ -1,0 +1,19 @@
+{
+  "name": "the-dump",
+  "version": "0.5.0",
+  "private": true,
+  "description": "DUMP static collection workspace",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs --dist",
+    "check": "node scripts/check.mjs",
+    "test": "node --test --test-isolation=none scripts/run-tests.mjs",
+    "build": "node scripts/build.mjs",
+    "check:dist": "node scripts/check.mjs --target dist --verify-manifest",
+    "verify": "node scripts/check.mjs && node --test --test-isolation=none scripts/run-tests.mjs && node scripts/build.mjs && node scripts/check.mjs --target dist --verify-manifest"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

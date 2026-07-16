@@ -1,0 +1,7 @@
+{
+  "version": "0.5.0",
+  "date": "2026-07-16",
+  "status": "development",
+  "summary": "Maintenance baseline with automated validation, tests, reproducible builds and CI/CD."
+}
+

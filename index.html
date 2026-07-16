@@ -1,0 +1,418 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" href="assets/images/favicon.png?v=2" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="assets/images/favicon.png?v=2" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/dump-logo.png?v=2">
+  <title>DUMP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Karla:wght@300;400;500;600;700&family=Courier+Prime:wght@400;700&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=35">
+</head>
+<body class="home-open">
+  <section class="home-screen" id="homeScreen" aria-label="DUMP home">
+    <div class="home-brand">
+      <div class="home-logo dump-logo dump-logo-home" role="img" aria-label="DUMP logo"></div>
+      <h1 class="home-title">DUMP</h1>
+      <button class="home-enter" id="homeEnterBtn" type="button">ENTER</button>
+    </div>
+  </section>
+
+  <div class="app" id="appShell">
+    <header class="topbar">
+      <div class="logo-img dump-logo dump-logo-topbar" role="img" aria-label="DUMP logo"></div>
+      <div class="brand-text">
+        <span class="word-vault">DUMP</span>
+      </div>
+      <div class="topbar-meta">
+        <div class="meta-pill">Collections: <span id="metaCollections">0</span></div>
+        <div class="meta-pill">Total entries: <span id="metaTotal">0</span></div>
+      </div>
+    </header>
+
+    <div class="tabbar" id="tabbar">
+      <button class="tab-add" id="addTabBtn" title="New collection" type="button">+</button>
+    </div>
+
+    <div class="main">
+      <aside class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-expanded="true" title="Toggle sidebar">
+          <span class="sidebar-toggle-icon" aria-hidden="true">&#8249;</span>
+          <span class="sidebar-toggle-label">Stats</span>
+        </button>
+        <div class="sidebar-panel" id="sidebarPanel">
+          <div>
+            <div class="sidebar-section-title">Collection Stats</div>
+            <div class="stat-grid" id="statCards"></div>
+          </div>
+          <div>
+            <div class="sidebar-section-title">Collection Status</div>
+            <div class="status-grid" id="collectionStatus"></div>
+          </div>
+          <div>
+            <div class="sidebar-section-title">Condition Index</div>
+            <div class="condition-bar" id="conditionBar"></div>
+          </div>
+          <div>
+            <div class="sidebar-section-title">Review Status</div>
+            <div class="review-summary" id="reviewSummary"></div>
+          </div>
+          <div>
+            <div class="sidebar-section-title">Recent Activity</div>
+            <div class="recent-list" id="recentList"></div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="content">
+        <div class="toolbar">
+          <div class="search-wrap">
+            <span class="search-icon">&#x2315;</span>
+            <input class="search-input" id="searchInput" type="text" placeholder="Search entries..." autocomplete="off">
+          </div>
+          <select class="filter-select" id="condFilter">
+            <option value="">All conditions</option>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+            <option value="Critical">Critical</option>
+          </select>
+          <select class="filter-select" id="statusFilter">
+            <option value="">All statuses</option>
+            <option value="Draft">Draft</option>
+            <option value="Pending Review">Pending Review</option>
+            <option value="Approved">Approved</option>
+            <option value="Needs Correction">Needs Correction</option>
+            <option value="Archived">Archived</option>
+          </select>
+          <div class="view-mode-toggle" aria-label="View mode">
+            <button class="view-mode-btn is-active" type="button" data-view-mode="table">Table</button>
+            <button class="view-mode-btn" type="button" data-view-mode="gallery">Gallery</button>
+            <button class="view-mode-btn" type="button" data-view-mode="cards">Cards</button>
+          </div>
+          <div class="toolbar-spacer"></div>
+          <div class="toolbar-io">
+            <button class="btn btn-ghost" id="exportCsvBtn" title="Export current collection as CSV" type="button">CSV</button>
+            <button class="btn btn-ghost" id="exportJsonBtn" title="Export entire DUMP archive as JSON" type="button">JSON</button>
+            <button class="btn btn-ghost" id="importBtn" title="Import JSON or CSV file" type="button">Import</button>
+            <input type="file" id="importFileInput" accept=".json,.csv" style="display:none">
+          </div>
+          <button class="btn btn-primary" id="addEntryBtn" aria-label="Add entry" title="Add entry" type="button">+</button>
+        </div>
+
+        <div class="table-wrap" id="tableWrap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-head">
+      <div>
+        <div class="detail-code" id="dpCode"></div>
+        <div class="detail-title" id="dpTitle"></div>
+      </div>
+      <button class="detail-close" id="detailClose" type="button">&#x2715;</button>
+    </div>
+    <div class="detail-body" id="dpBody"></div>
+    <div class="detail-foot">
+      <button class="btn btn-ghost" id="dpDuplicate" type="button">Duplicate</button>
+      <button class="btn btn-ghost" id="dpEdit" style="flex:1" type="button">Edit</button>
+      <button class="btn btn-danger" id="dpDelete" type="button">Delete</button>
+    </div>
+    <div class="detail-foot-move">
+      <span class="detail-move-label">Move to collection</span>
+      <div class="detail-move-row">
+        <select class="field-select" id="dpMoveSelect"></select>
+        <button class="btn btn-ghost" id="dpMoveBtn" type="button">Move</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="modalTitle">New Entry</div>
+          <div class="modal-title-sub" id="modalSub"></div>
+          <div class="modal-type-chip" id="modalTypeChip"></div>
+        </div>
+        <button class="modal-close" id="modalClose" type="button">&#x2715;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-block" id="coreSection">
+          <div class="form-section-title" id="coreSectionTitle">Core Record</div>
+          <div class="form-grid">
+            <div class="field" id="fieldCode">
+              <label class="field-label" id="labelCode">Accession No.<span class="req">*</span></label>
+              <input class="field-input" id="fCode" placeholder="e.g. BK-2024-001" maxlength="40">
+              <div class="field-error" id="eCode"></div>
+            </div>
+            <div class="field" id="fieldYear">
+              <label class="field-label" id="labelYear">Year</label>
+              <input class="field-input" id="fYear" type="number" placeholder="e.g. 1956" min="1" max="2099">
+            </div>
+            <div class="field span-2" id="fieldTitle">
+              <label class="field-label" id="labelTitle">Title<span class="req">*</span></label>
+              <input class="field-input" id="fTitle" placeholder="Full title" maxlength="120">
+              <div class="field-error" id="eTitle"></div>
+            </div>
+            <div class="field" id="fieldCreator">
+              <label class="field-label" id="labelCreator">Creator / Author / Artist</label>
+              <input class="field-input" id="fCreator" placeholder="Name" maxlength="80">
+            </div>
+            <div class="field" id="fieldCondition">
+              <label class="field-label" id="labelCondition">Condition</label>
+              <select class="field-select" id="fCondition">
+                <option value="Excellent">Excellent</option>
+                <option value="Good" selected>Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block" id="ratingSection" hidden>
+          <hr class="form-divider">
+          <div class="form-section-title">Rating</div>
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label">Score (1-5)</label>
+              <div class="rating-input" id="ratingInput">
+                <span class="star-input" data-score="1">&#9733;</span>
+                <span class="star-input" data-score="2">&#9733;</span>
+                <span class="star-input" data-score="3">&#9733;</span>
+                <span class="star-input" data-score="4">&#9733;</span>
+                <span class="star-input" data-score="5">&#9733;</span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">Favourite</label>
+              <label class="toggle-wrap">
+                <input type="checkbox" id="fFavorite">
+                <span class="toggle-label">Mark as favourite</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block" id="dynamicSection">
+          <hr class="form-divider">
+          <div class="form-section-title" id="dynamicSectionTitle">Collection Fields</div>
+          <div class="form-grid" id="dynamicFields"></div>
+        </div>
+
+        <div class="form-block" id="attachmentSection">
+          <hr class="form-divider">
+          <div class="form-section-title">Uploads</div>
+          <div class="upload-panel">
+            <button class="btn btn-ghost upload-main-btn" id="attachmentUploadBtn" type="button">Upload files</button>
+            <input type="file" id="attachmentUploadInput" multiple style="display:none">
+            <div class="attachment-list" id="attachmentList"></div>
+          </div>
+        </div>
+
+        <div class="form-block" id="adminSection">
+          <hr class="form-divider">
+          <div class="form-section-title" id="adminSectionTitle">Administration</div>
+          <div class="form-grid">
+            <div class="field" id="fieldStatus">
+              <label class="field-label" id="labelStatus">Status</label>
+              <select class="field-select" id="fStatus">
+                <option value="Draft">Draft</option>
+                <option value="Pending Review">Pending Review</option>
+                <option value="Approved">Approved</option>
+                <option value="Needs Correction">Needs Correction</option>
+                <option value="Archived">Archived</option>
+              </select>
+            </div>
+            <div class="field" id="fieldResponsible">
+              <label class="field-label" id="labelResponsible">Responsible</label>
+              <input class="field-input" id="fResponsible" placeholder="Curator" maxlength="80">
+            </div>
+            <div class="field span-2" id="fieldLocation">
+              <label class="field-label" id="labelLocation">Physical Location</label>
+              <input class="field-input" id="fLocation" placeholder="Room, shelf, box..." maxlength="120">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block" id="conservationSection">
+          <hr class="form-divider">
+          <div class="form-section-title" id="conservationSectionTitle">Conservation</div>
+          <div class="form-grid">
+            <div class="field" id="fieldConsState">
+              <label class="field-label" id="labelConsState">Conservation State</label>
+              <select class="field-select" id="fConsState">
+                <option value="Excellent">Excellent</option>
+                <option value="Good" selected>Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+                <option value="Critical">Critical</option>
+              </select>
+            </div>
+            <div class="field" id="fieldConsPriority">
+              <label class="field-label" id="labelConsPriority">Priority</label>
+              <select class="field-select" id="fConsPriority">
+                <option value="Low" selected>Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+            <div class="field span-2" id="fieldConsDesc">
+              <label class="field-label" id="labelConsDesc">Description</label>
+              <textarea class="field-textarea" id="fConsDesc" placeholder="Condition summary, visible issues, handling notes..."></textarea>
+            </div>
+            <div class="field span-2" id="fieldConsRisks">
+              <label class="field-label" id="labelConsRisks">Identified Risks</label>
+              <textarea class="field-textarea" id="fConsRisks" placeholder="Humidity, fragility, missing parts, data loss risks..."></textarea>
+            </div>
+            <div class="field" id="fieldConsLastInsp">
+              <label class="field-label" id="labelConsLastInsp">Last Inspection</label>
+              <input class="field-input" id="fConsLastInsp" type="date">
+            </div>
+            <div class="field" id="fieldConsNextInsp">
+              <label class="field-label" id="labelConsNextInsp">Next Inspection</label>
+              <input class="field-input" id="fConsNextInsp" type="date">
+            </div>
+            <div class="field" id="fieldConsInspector">
+              <label class="field-label" id="labelConsInspector">Inspector</label>
+              <input class="field-input" id="fConsInspector" placeholder="Inspector or reviewer" maxlength="80">
+            </div>
+            <div class="field span-2" id="fieldConsRecs">
+              <label class="field-label" id="labelConsRecs">Recommendations</label>
+              <textarea class="field-textarea" id="fConsRecs" placeholder="Preservation, backup, repair, storage, or handling recommendations..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block" id="reviewSection">
+          <hr class="form-divider">
+          <div class="form-section-title" id="reviewSectionTitle">Review</div>
+          <div class="form-grid">
+            <div class="field" id="fieldReviewer">
+              <label class="field-label" id="labelReviewer">Reviewer</label>
+              <input class="field-input" id="fReviewer" placeholder="Reviewer name" maxlength="80">
+            </div>
+            <div class="field span-2" id="fieldReviewNote">
+              <label class="field-label" id="labelReviewNote">Review Note</label>
+              <textarea class="field-textarea" id="fReviewNote" placeholder="Approval notes, corrections, or review summary..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block" id="notesSection">
+          <hr class="form-divider">
+          <div class="form-section-title">Notes</div>
+          <div class="form-grid">
+            <div class="field span-2">
+              <label class="field-label" id="labelNotes">Provenance / Notes</label>
+              <textarea class="field-textarea" id="fNotes" placeholder="Origins, context, observations, or archive notes..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="modalCancel" type="button">Cancel</button>
+        <button class="btn btn-primary" id="modalSave" type="button">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <div class="confirm-title" id="confirmTitle">Confirm action</div>
+      <div class="confirm-sub" id="confirmSub"></div>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" id="confirmNo" type="button">Cancel</button>
+        <button class="btn btn-danger" id="confirmYes" type="button">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="typePickerOverlay">
+    <div class="modal type-picker-modal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="typePickerTitle">Choose collection type</div>
+          <div class="modal-title-sub" id="typePickerSub">Pick the structure that matches this collection.</div>
+        </div>
+        <button class="modal-close" id="typePickerClose" type="button">&#x2715;</button>
+      </div>
+      <div class="type-picker-grid" id="typePickerGrid"></div>
+    </div>
+  </div>
+
+  <div class="floating-player fp-hidden" id="floatingPlayer">
+    <div class="fp-titlebar" id="fpTitlebar">
+      <div class="fp-title-text">DUMP PLAYER</div>
+      <div class="fp-tb-controls">
+        <button class="fp-tb-btn" id="fpMinimize" type="button" title="Mini player">-</button>
+        <button class="fp-tb-btn" id="fpClose" type="button">&#x2715;</button>
+      </div>
+    </div>
+    <div class="fp-body" id="fpBody">
+      <div class="fp-control-pod fp-vis fp-paused" id="fpVis">
+        <button class="fp-volume-mark" id="fpVolumeUp" type="button" title="Volume up">+</button>
+        <div class="fp-pod-controls">
+          <button class="fp-btn fp-skip-btn" id="fpPrev" type="button" title="Previous">&#9664;&#9664;</button>
+          <button class="fp-btn fp-play-btn" id="fpPlay" type="button" title="Play">&#9654;</button>
+          <button class="fp-btn fp-skip-btn" id="fpNext" type="button" title="Next">&#9654;&#9654;</button>
+        </div>
+        <button class="fp-volume-mark" id="fpVolumeDown" type="button" title="Volume down">-</button>
+      </div>
+      <div class="fp-display">
+        <div class="fp-track-name" id="fpTrackName">No track loaded</div>
+        <div class="fp-progress-wrap">
+          <div class="fp-progress" id="fpProgress">
+            <div class="fp-progress-fill" id="fpProgressFill"></div>
+            <span class="fp-progress-knob"></span>
+          </div>
+        </div>
+        <div class="fp-display-footer">
+          <span class="fp-mode-icon">&#8644;</span>
+          <div class="fp-time" id="fpTime">0:00</div>
+          <span class="fp-mode-icon">&#8635;</span>
+        </div>
+        <div class="fp-track-sub" id="fpTrackSub">Select a sound entry to start playback.</div>
+        <div class="fp-vol-wrap">
+          <span class="fp-vol-icon">VOL</span>
+          <input class="fp-vol" id="fpVolume" type="range" min="0" max="1" step="0.01" value="0.8">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-viewer bv-hidden" id="bookViewer">
+    <button class="bv-close" id="bookClose" type="button">&#x2715;</button>
+    <div class="bv-inner">
+      <div class="bv-meta" id="bvMeta">Reader</div>
+      <div class="bv-scene">
+        <div class="bv-spread" id="bvSpread">
+          <div class="bv-page bv-page-left" id="bvLeft"></div>
+          <div class="bv-spine"></div>
+          <div class="bv-page bv-page-right" id="bvRight"></div>
+        </div>
+      </div>
+      <div class="bv-nav">
+        <button class="btn btn-ghost" id="bookPrev" type="button">Previous</button>
+        <div class="bv-page-num" id="bvPageNum">Page 1</div>
+        <button class="btn btn-ghost" id="bookNext" type="button">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <audio id="clickSound" src="audio/mouse-click-sound.mp3" preload="auto"></audio>
+  <audio id="addSound" src="audio/page-turn-add.wav" preload="auto"></audio>
+  <audio id="deleteSound" src="audio/paper-crumple-trash.wav" preload="auto"></audio>
+  <script src="assets/js/script.js?v=29"></script>
+</body>
+</html>
+
+

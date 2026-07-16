@@ -1,0 +1,20 @@
+# Generated output
+dist/
+*.zip
+
+# Local tools and dependencies
+.tools/
+node_modules/
+
+# Historical snapshots are kept locally, outside source control
+archive/
+
+# Logs, coverage and temporary files
+coverage/
+*.log
+*.tmp
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,117 @@
+{
+  "metal": {
+    "label": "Metal / Metallic alloys",
+    "match": [
+      "metal",
+      "bronze",
+      "iron",
+      "steel",
+      "silver",
+      "copper",
+      "brass",
+      "gold",
+      "alloy",
+      "liga"
+    ],
+    "intervalMonths": 6,
+    "environment": "Stable humidity, low pollutants, controlled handling.",
+    "tasks": [
+      "Check relative humidity and visible corrosion every 6 months.",
+      "Avoid direct handling without gloves.",
+      "Keep away from abrupt temperature and humidity changes.",
+      "Record any green, orange, black or powdery corrosion spots."
+    ]
+  },
+  "wood": {
+    "label": "Wood",
+    "match": [
+      "wood",
+      "madeira",
+      "oak",
+      "pine",
+      "cedar",
+      "mahogany"
+    ],
+    "intervalMonths": 4,
+    "environment": "Moderate humidity, good ventilation, no direct sun.",
+    "tasks": [
+      "Inspect for mold, cracks, warping and insect activity every 4 months.",
+      "Avoid damp storage and direct sunlight.",
+      "Check joints and fragile carved areas before moving.",
+      "Document odor, stains or powder residue."
+    ]
+  },
+  "paper": {
+    "label": "Paper / Books / Documents",
+    "match": [
+      "paper",
+      "papel",
+      "book",
+      "livro",
+      "document",
+      "archive",
+      "photograph",
+      "print"
+    ],
+    "intervalMonths": 6,
+    "environment": "Dry, shaded, clean storage with minimal light exposure.",
+    "tasks": [
+      "Check acidity, tears, stains, insects and deformation every 6 months.",
+      "Keep away from intense light and moisture.",
+      "Use supports when opening fragile books.",
+      "Avoid pressure marks from clips, rubber bands and adhesive tapes."
+    ]
+  },
+  "textile": {
+    "label": "Textile",
+    "match": [
+      "textile",
+      "fabric",
+      "cloth",
+      "cotton",
+      "silk",
+      "wool",
+      "tecido"
+    ],
+    "intervalMonths": 3,
+    "environment": "Low light, clean support, pest monitoring.",
+    "tasks": [
+      "Inspect for insects, fading, tears and folds every 3 months.",
+      "Avoid hanging fragile textiles without structural support.",
+      "Keep in breathable, clean storage.",
+      "Document color fading and fiber loss."
+    ]
+  },
+  "ceramic": {
+    "label": "Ceramic / Glass / Stone",
+    "match": [
+      "ceramic",
+      "cerâmica",
+      "glass",
+      "stone",
+      "porcelain",
+      "clay",
+      "terracotta"
+    ],
+    "intervalMonths": 12,
+    "environment": "Stable support, protected from impact and vibration.",
+    "tasks": [
+      "Inspect cracks, old repairs, chips and unstable fragments once a year.",
+      "Avoid vibration and crowded shelves.",
+      "Use padded supports when moving.",
+      "Photograph any new fracture line."
+    ]
+  },
+  "default": {
+    "label": "General object",
+    "match": [],
+    "intervalMonths": 6,
+    "environment": "Stable environment, clean storage, controlled handling.",
+    "tasks": [
+      "Review condition every 6 months.",
+      "Update conservation notes after each inspection.",
+      "Check storage location and handling risks.",
+      "Add photographs when condition changes."
+    ]
+  }
+}

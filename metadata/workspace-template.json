@@ -1,0 +1,17 @@
+{
+  "workspaceName": "DUMP Shared Collection",
+  "version": "0.4-subnav",
+  "description": "Template for future shared collection metadata. This is front-end only and can later be connected to login, invite links or a backend.",
+  "roles": [
+    "owner",
+    "editor",
+    "viewer"
+  ],
+  "futureFields": [
+    "userId",
+    "inviteCode",
+    "editHistory",
+    "reminders",
+    "sharedCollections"
+  ]
+}
